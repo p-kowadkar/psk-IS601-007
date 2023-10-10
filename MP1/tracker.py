@@ -77,6 +77,19 @@ def add_task(name: str, description: str, due: str):
     print("New task added successfully")
     #PSK 10/08/2023
     save()
+    """
+    It begins by checking if the name, description, and due parameters are all provided. If any of them are missing (i.e., one or more is empty), it prints a message ("Missing data (name, description, or due date)") and returns without adding the task.
+
+    It then attempts to convert the due string into a datetime object using a function called str_to_datetime. If the conversion is successful, it assigns the resulting datetime object to the due field of the task dictionary. If the conversion fails (returns None), it prints a message ("Invalid due date format") and returns without adding the task.
+
+    If both the checks in steps 1 and 2 pass, it proceeds to update the task dictionary with the provided name, description, and the converted due datetime.
+
+    It also updates the lastActivity field of the task dictionary with the current date and time using datetime.now().
+
+    The updated task is then appended to a list called tasks.
+
+    Finally, it prints a message ("New task added successfully") to confirm that the new task was added successfully, and it calls a save function (which is not defined in this code snippet but presumably saves the updated list of tasks).
+    """
 
 def process_update(index):
     """ extracted the user input prompts to get task data then passes it to update_task() """
@@ -98,6 +111,17 @@ def process_update(index):
     desc = input(f"What's a brief descriptions of this task? (TODO description) \n").strip()
     due = input(f"When is this task due (format: m/d/y H:M:S) (TODO due) \n").strip()
     update_task(index, name=name, description=desc, due=due)
+    """
+    It checks if the provided index is within the valid range (between 0 and the length of the tasks list). If it's not a valid index, it prints "Invalid index. Task not found." and returns.
+
+    If the index is valid, it retrieves the task at that index from the tasks list.
+
+    It then displays the existing task data for name, description, and due.
+
+    It prompts the user for new values for name, description, and due using input().
+
+    It calls the update_task function with the updated values for the task at the given index.
+    """
 
 def update_task(index: int, name: str, description:str, due: str):
     """ Updates the name, description , due date of a task found by index if an update to the property was provided """
@@ -126,6 +150,15 @@ def update_task(index: int, name: str, description:str, due: str):
     #PSK 10/08/2023
     
     save()
+    """It checks if the provided index is within the valid range (between 0 and the length of the tasks list). If it's not a valid index, it prints "Invalid index. Task not found." and returns.
+
+    If the index is valid, it retrieves the task at that index from the tasks list.
+
+    It updates the task's properties (name, description, and due) if new values are provided.
+
+    It updates the lastActivity field with the current datetime.
+
+    It checks if any of the task properties were updated. If so, it prints "Task updated successfully." If no changes were provided, it prints "Task was not updated. No changes provided."""
 
 def mark_done(index):
     """ Updates a single task, via index, to a done datetime"""
@@ -139,7 +172,7 @@ def mark_done(index):
         print("Invalid index. Task not found.")
         return
     task = tasks[index]
-    if 'done' in task:
+    if task['done'] != False:
         print("Task is already marked as done.")
     else:
         # If it's not marked as done, record the current datetime as the value
@@ -148,6 +181,17 @@ def mark_done(index):
     #PSK 10/08/2023
 
     save()
+    """
+    It checks if the provided index is within the valid range (between 0 and the length of the tasks list). If it's not a valid index, it prints "Invalid index. Task not found." and returns.
+
+    If the index is valid, it retrieves the task at that index from the tasks list.
+
+    It checks if the done property is already present in the task. If it is, it prints "Task is already marked as done."
+
+    If the task is not marked as done, it records the current datetime as the value of the done property.
+
+    It prints "Task marked as done successfully."
+"""
 
 def view_task(index):
     """ View more info about a specific task fetch by index """
@@ -168,7 +212,13 @@ def view_task(index):
         Due: {task['due']}\n
         Completed: {task['done'] if task['done'] else '-'} \n
         """.replace('  ', ' '))
+    """
+    It checks if the provided index is within the valid range (between 0 and the length of the tasks list). If it's not a valid index, it prints "Invalid index. Task not found." and returns.
 
+    If the index is valid, it retrieves the task at that index from the tasks list.
+
+    It prints detailed information about the task, including its name, description, last activity, due date, and whether it is completed or not. The format of the output is formatted to be more readable.
+    """
 
 def delete_task(index):
     """ deletes a task from the tasks list by index """
@@ -188,22 +238,42 @@ def delete_task(index):
     #PSK 10/08/2023
     
     save()
+    """
+    It checks if the provided index is within the valid range (between 0 and the length of the tasks list). If it's not a valid index, it prints "Invalid index. Task not found." and returns.
+
+    If the index is valid, it removes the task at that index using the pop method and stores the removed task in the removed_task variable.
+
+    It checks if the removal was successful (i.e., if removed_task is not None). If it was successful, it prints "Task deleted successfully." If it was not successful, it prints "Task deletion failed."
+    """
 
 def get_incomplete_tasks():
     """ prints a list of tasks that are not done """
     # generate a list of tasks where the task is not done
     # pass that list into list_tasks()
     # include your ucid and date as a comment of when you implemented this, briefly summarize the solution
-    _tasks = [task for task in tasks if 'done' not in task] # <-- this is a placeholder to populate based on the above requirements
+    _tasks = [task for task in tasks if task['done'] is False] # <-- this is a placeholder to populate based on the above requirements
     list_tasks(_tasks)
+    """
+    It creates a new list _tasks using a list comprehension to filter tasks from the tasks list where the done property is explicitly False.
+
+    It passes the _tasks list to the list_tasks function to print the incomplete tasks.
+    """
 
 def get_overdue_tasks():
     """ prints a list of tasks that are over due completion (not done and expired) """
     # generate a list of tasks where the due date is older than "now" and that are not complete (i.e., not done)
     # pass that list into list_tasks()
     # include your ucid and date as a comment of when you implemented this, briefly summarize the solution
-    _tasks = [task for task in tasks if 'done' not in task and 'due' in task and task['due'] < datetime.now()] # <-- this is a placeholder to populate based on the above requirements
+    _tasks = [task for task in tasks if task['done'] is False and 'due' in task and task['due'] < datetime.now()] # <-- this is a placeholder to populate based on the above requirements
     list_tasks(_tasks)
+    """
+    It creates a new list _tasks using a list comprehension to filter tasks from the tasks list based on the following conditions:
+
+    The task should not be marked as done (task['done'] is False).
+    The task should have a due property.
+    The due property's value should be less than the current datetime (i.e., it's in the past).
+    It passes the _tasks list to the list_tasks function to print the overdue tasks.
+    """
 
 def get_time_remaining(index):
     """ outputs the number of days, hours, minutes, seconds a task has before it's overdue otherwise shows similar info for how far past due it is """
@@ -223,7 +293,8 @@ def get_time_remaining(index):
         print("Due date not set for this task.")
         return
     due_date = task['due']
-    current_time = datetime.now
+    due_date = datetime.strptime(task['due'], '%Y-%m-%d %H:%M:%S')
+    current_time = datetime.now()
     time_difference = due_date - current_time
     if time_difference.total_seconds() < 0:
         overdue = True
@@ -238,6 +309,15 @@ def get_time_remaining(index):
         print(f"{days} days, {hours} hours, {minutes} minutes, {seconds} seconds remaining")
     else:
         print(f"{days} days, {hours} hours, {minutes} minutes, {seconds} seconds overdue")
+    """
+    It checks if the provided index is within the valid range (between 0 and the length of the tasks list). If it's not a valid index, it prints "Invalid index. Task not found." and returns.
+    It retrieves the task at the specified index from the tasks list.
+    It checks if the task has a due property. If it doesn't, it prints "Due date not set for this task." and returns.
+    It parses the due date into a datetime object and calculates the time difference between the due date and the current time.
+    If the calculated time difference is negative, it indicates that the task is overdue, so it sets the overdue flag to True and takes the absolute value of the time difference.
+    It calculates the number of days, hours, minutes, and seconds from the time difference.
+    If the task is not overdue, it prints the time remaining in the format "X days, X hours, X minutes, X seconds remaining." If it's overdue, it prints the time overdue in the format "X days, X hours, X minutes, X seconds overdue."
+    """
 
 # no changes needed below this line
 
