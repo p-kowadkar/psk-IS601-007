@@ -1,15 +1,8 @@
-# This file is used by pip to install required python packages
-# Usage: python -m pip install -r requirements.txt
-
-# To make this file from scratch
-# 1) python -m pip install flask
-# 2) python -m pip install gunicorn
-# 3) python -m pip freeze > requirements.txt
-
 atomicwrites==1.4.0
 attrs==21.4.0
 click==8.0.4
 colorama==0.4.4
+exceptiongroup==1.1.0
 Flask==2.0.3
 gunicorn==20.1.0
 iniconfig==1.1.1
@@ -23,3 +16,4 @@ pyparsing==3.0.7
 pytest==7.0.1
 tomli==2.0.1
 Werkzeug==2.0.3
+zipp==3.9.0
