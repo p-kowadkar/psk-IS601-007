@@ -1,7 +1,7 @@
 # DO NOT EDIT
 
 class OutOfStockException(Exception):  # DO NOT EDIT
-    """Raised when something is out of stock"""
+    """Raised when items are out of stock"""
     pass
 
 
