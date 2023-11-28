@@ -46,7 +46,7 @@ def search():
         args['name'] = f"%{name}%"
     # TODO search-4 append an equality filter for country if provided
     if country:
-        query += " AND organization.country = %(country)s"
+        query += " AND organization.country LIKE %(country)s"
         args['country'] = f"%{country}%"
     # TODO search-5 append an equality filter for state if provided
     if state:
