@@ -18,6 +18,12 @@ class HTTP(Enum):
     GET = 1
     POST = 2
 
+# utils/api_config.py
+class APIConfig:
+    BASE_URL = "anime-db.p.rapidapi.com"
+    API_KEY = "f13f1b1dfamsha7a40ed62397721p1169fajsn06103cf9eaf0"
+
+
 class API:
     @staticmethod
     def _get_config(API_REF="API"):
@@ -155,11 +161,15 @@ class API:
     @staticmethod
     def _is_eligible_to_fetch(API_REF):
         return API._check_rate_limit(API_REF)
+    
+    @staticmethod
+    def get(endpoint, params=None, headers=None, base_url=APIConfig.BASE_URL):
+        url = f"{base_url}{endpoint}"
+        response = requests.get(url, params=params, headers=headers)
+        return response.json()
 
+from anime_db import Anime
 
 if __name__ == "__main__":
-    # example using https://rapidapi.com/alphavantage/api/alpha-vantage
-    querystring = {"page":"1","size":"10","search":"Fullmetal","genres":"Fantasy,Drama","sortBy":"ranking","sortOrder":"asc"}
-    
-    resp = API.get("/query", querystring)
-    print(resp)
+    anime_data = Anime.get_anime(1, 1)
+    print(f"API Results: {anime_data}")
