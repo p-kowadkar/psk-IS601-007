@@ -1,13 +1,15 @@
 from enum import Enum
 import requests
 import os
-import sys
-# Get the parent directory of the current script (api.py)
-CURR_DIR = os.path.dirname(os.path.abspath(__file__))
+# fix for testing just this file
+if __name__ == "__main__":
+    import sys
+    # Get the parent directory of the current script (api.py)
+    CURR_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Add the parent directory to the Python path
-PARENT_DIR = os.path.join(CURR_DIR, "..")  # Go up one level from utils to project folder
-sys.path.append(PARENT_DIR)
+    # Add the parent directory to the Python path
+    PARENT_DIR = os.path.join(CURR_DIR, "..")  # Go up one level from utils to project folder
+    sys.path.append(PARENT_DIR)
 from dotenv import load_dotenv
 from sql.db import DB  # Import the DB class from your db.py module
 from datetime import datetime, timedelta
@@ -17,12 +19,6 @@ load_dotenv()
 class HTTP(Enum):
     GET = 1
     POST = 2
-
-# utils/api_config.py
-class APIConfig:
-    BASE_URL = "anime-db.p.rapidapi.com"
-    API_KEY = "f13f1b1dfamsha7a40ed62397721p1169fajsn06103cf9eaf0"
-
 
 class API:
     @staticmethod
@@ -57,10 +53,7 @@ class API:
 
     @staticmethod
     def _fetch(url, params, API_REF, verb):
-        
         config = API._get_config(API_REF)
-        if config["RATE_HAS_LIMIT"] and not API._is_eligible_to_fetch(API_REF):
-            raise Exception("Rate limit reached or exceeded")
         headers = {}
         if config["HOST"]:
             headers["X-RapidAPI-Host"] = config["HOST"]
@@ -86,6 +79,8 @@ class API:
 
     @staticmethod
     def _update_rate_limit(API_REF, response):
+        if not API._is_eligible_to_fetch(API_REF):
+            raise Exception("Rate limit reached or exceeded")
         config = API._get_config(API_REF)
         rate_limit_header = config["RATE_LIMIT_HEADER"]
         rate_remaining_header = config["RATE_REMAINING_HEADER"]
@@ -161,15 +156,18 @@ class API:
     @staticmethod
     def _is_eligible_to_fetch(API_REF):
         return API._check_rate_limit(API_REF)
-    
-    @staticmethod
-    def get(endpoint, params=None, headers=None, base_url=APIConfig.BASE_URL):
-        url = f"{base_url}{endpoint}"
-        response = requests.get(url, params=params, headers=headers)
-        return response.json()
 
-from anime_db import Anime
 
 if __name__ == "__main__":
-    anime_data = Anime.get_anime(1, 1)
-    print(f"API Results: {anime_data}")
+    endpoint = f"/anime"
+    querystring = {"page":"1","size":"10"}
+    # print(endpoint,querystring)
+    
+    try:
+        resp = API.get(endpoint, params=querystring)
+        print(resp)
+    except Exception as e:
+        print(f"Error: {e}")
+     
+    # anime_data = Anime.get_anime(1, 1)
+    # print(f"API Results: {anime_data}")
