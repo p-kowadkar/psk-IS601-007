@@ -38,6 +38,8 @@ def create_app(config_filename=''):
         app.register_blueprint(auth)
         from roles.roles import roles
         app.register_blueprint(roles)
+        from anime_db.anime_db import anime_db
+        app.register_blueprint(anime_db)
 
         # load the extension
         principals = Principal(app) # must be defined/initialized for identity to work (flask_principal)
