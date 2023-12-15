@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block title %}Anime{% endblock %}
+
+<!-- content -->
+{% block content %}
+{% from "_formhelpers.html" import render_field %}
+{% from "_table_helper.html" import render_table %}
+{% set view = "anime_db.view" %}
+
+{% if current_user.is_authenticated %}
+{% set assoc = "anime_db.track" %}
+{% else %}
+{% set assoc = None %}
+{% endif %}
+
+{% if current_user.has_role("Admin") %}
+{% set edit = "anime_db.edit" %}
+{% set delete = "anime_db.delete" %}
+{% else %}
+{% set edit = None %}
+{% set delete = None %}
+{% endif %}
+<div class="container-fluid">
+    <!-- psk 12/13/2023 -->
+    {% include '_anime_search.html' %}
+
+    {% if current_user.is_authenticated or current_user.has_role("Admin") %}
+
+    {% set args = dict(request.args) %}
+    {% if "id" in args.keys() %}
+    {% set _ = args.pop("id", None) %}
+    {% endif %}
+
+    <form action="{{url_for('anime_db.clear', id=request.args.get('id', current_user.id), **args)}}"
+        onsubmit="return confirm('Are you sure?')">
+        <input type="hidden" name="id" value="{{request.args.get('id', current_user.id)}}" />
+        <input type="submit" class="btn btn-danger mt-3" value="Clear Watchlist" />
+    </form>
+    <div class="row mt-3 mb-3">
+        <div class="col">
+            Showing Results {{rows | length}}/{{total_records or 0}}
+        </div>
+    </div>
+    {% endif %}
+
+    {{ render_table(rows, title if title else "Anime", ["id", "anime_id", "is_assoc", "user_id"], view, edit, delete, assoc) }}
+</div>
+{% endblock %}
