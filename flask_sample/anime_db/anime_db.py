@@ -557,17 +557,6 @@ def associations():
         query += " AND ranking LIKE %(ranking)s"
         args["ranking"] = f"%{form.ranking.data}%"
     
-    # if form.sort.data in allowed_columns and form.order.data in ["asc", "desc"]:
-    #     query += f" ORDER BY {form.sort.data} {form.order.data}"
-    
-    # if form.limit.data:
-    #     if form.limit.data >100 or form.limit.data<1:
-    #         form.limit.data = 10
-    #         query += f" LIMIT 10"
-    #     else:
-    #         query += f" LIMIT {form.limit.data}"
-    # else:
-    #     query += f" LIMIT 10"
 
     print("\n", "ASSOCIATIONS->", query, args)
     rows = []
