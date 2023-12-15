@@ -485,7 +485,7 @@ def watchlist():
     # return render_template("anime_list.html", rows=rows, form=form, title="Watchlist")
     return render_template("anime_list.html", rows=rows, form=form, title="Watchlist", total_records=total_records)
 
-
+# psk 12/13/2023
 @anime_db.route("/clear", methods=["GET"])
 @login_required
 def clear():
@@ -509,6 +509,7 @@ def clear():
 
     return redirect(url_for("anime_db.watchlist", **args))
 
+# psk 12/ 14/ 2023
 @anime_db.route("/associations", methods=["GET"])
 @admin_permission.require(http_exception=403)
 def associations():
@@ -524,22 +525,6 @@ def associations():
     """
     
     args = {}
-    
-    # status = [(k["label"],k["label"]) for k in status()]
-    # status = [('', 'Not Selected')] + status
-    # form.status.choices = status
-    
-    # ranking = [(k["label"],k["label"]) for k in ranking()]
-    # ranking = [('', 'Not Selected')] + ranking
-    # form.ranking.choices = ranking
-    
-    # ["title", "alternative_titles", "genres", "status", "episodes", "anime_type", "ranking"]
-    # allowed_columns = ["title", "alternative_titles", "status", "ranking"]
-    # form.sort.choices = [(k,k.title().replace("_", " ")) for k in allowed_columns]
-    
-    # if form.usertitle.data:
-    #     args["usertitle"] = f"%{form.usertitle.data}%"
-    #     query += " AND usertitle LIKE %(usertitle)s"
         
     if form.title.data:
         query += " AND title LIKE %(title)s"
