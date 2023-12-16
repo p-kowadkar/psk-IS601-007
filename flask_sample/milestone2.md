@@ -127,5 +127,5 @@
 <tr><td> <em>Caption:</em> <p>Link to the above: <a href="https://wakatime.com/@a6d70ece-69cf-4855-a63d-da6f79143fbd/projects/pwhmecwvqf?start=2023-12-09&end=2023-12-15">https://wakatime.com/@a6d70ece-69cf-4855-a63d-da6f79143fbd/projects/pwhmecwvqf?start=2023-12-09&amp;end=2023-12-15</a><br></p>
 </td></tr>
 </table></td></tr>
-</table></td></tr>
+</table></td></tr> 
 <table><tr><td><em>Grading Link: </em><a rel="noreferrer noopener" href="https://learn.ethereallab.app/homework/IS601-007-F23/is601-milestone-2-api-project/grade/psk" target="_blank">Grading</a></td></tr></table>
